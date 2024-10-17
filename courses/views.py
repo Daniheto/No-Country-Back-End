@@ -77,7 +77,7 @@ def update_course(request, course_id):
         }, status=status.HTTP_404_NOT_FOUND)
     
     # Verifica si el usuario autenticado es el propietario del curso
-    if course.owner != request.user:
+    if course.instructor != request.user:
         return Response({
             'status': 'error',
             'message': 'You do not have permission to update this course.'
@@ -121,7 +121,7 @@ def delete_course(request, course_id):
         course = Course.objects.get(id=course_id)
 
         # Verifica si el usuario autenticado es el propietario del curso
-        if course.owner != request.user:
+        if course.instructor != request.user:
             return Response({
                 'status': 'error',
                 'message': 'You do not have permission to delete this course.'

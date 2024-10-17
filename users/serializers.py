@@ -50,3 +50,54 @@ class UserResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'date_joined']
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    current_password = serializers.CharField(write_only=True, required=False)
+    new_password = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'current_password', 'new_password']
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(f"This email {value} is already in use.")
+        return value
+
+    def validate(self, attrs):
+        # Validar que se proporcione la contraseña actual si se quiere cambiar la nueva contraseña
+        if 'new_password' in attrs and not attrs.get('current_password'):
+            raise serializers.ValidationError({
+                'current_password': 'Current password is required to set a new password.'
+            })
+
+        # Verifica la contraseña actual si se está cambiando la nueva contraseña
+        if 'current_password' in attrs and 'new_password' in attrs:
+            user = self.instance
+            if not user.check_password(attrs['current_password']):
+                raise serializers.ValidationError({
+                    'current_password': 'Current password is incorrect.'
+                })
+
+            # Validar la nueva contraseña
+            try:
+                validate_password(attrs['new_password'], user)
+            except ValidationError as e:
+                raise serializers.ValidationError({
+                    'new_password': e.messages
+                })
+
+        return attrs
+
+    def update(self, instance, validated_data):
+        # Cambia los campos del usuario
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+
+        # Cambia la contraseña si se proporciona
+        if 'new_password' in validated_data:
+            instance.set_password(validated_data['new_password'])
+
+        instance.save()
+        return instance
