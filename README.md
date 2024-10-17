@@ -80,6 +80,7 @@ python manage.py runserver
 | [Cierre de Sesión de Usuarios](#cierre-de-sesión-de-usuario) | `POST` | `/api/users/sign_out` | Cerrar sesión de un usuario autenticado. |
 | [Actualización del Usuarios](#actualización-del-usuario) | `PUT` | `/api/users/update_user` | Actualizar la información del perfil del usuario. |
 | [Eliminación del Usuarios](#eliminación-del-usuario) | `DELETE` | `/api/users/delete_user` | Eliminar el usuario actual. |
+| [Obtener Todos los Usuarios](#obtención-de-todos-los-usuarios) | `GET` | `/api/users/all_users` | Obtiene todos los usuarios. |
 
 #### Registro de usuario
 
@@ -253,7 +254,19 @@ Content-Type: application/json
 
 {
     "status": "success",
-    "message": "User logged out successfully."
+    "message": "User profile updated successfully.",
+    "data": {
+        "token": {
+            "token_key": "56df34f5356f23863572fe1610539f4240aa466a",
+            "token_expiration": "2024-10-20T15:18:45.410372+00:00"
+        },
+        "users": {
+            "id": 2,
+            "username": "newUsername",
+            "email": "new@email.com",
+            "date_joined": "2024-10-17T15:14:16.668058Z"
+        }
+    }
 }
 ```
 
@@ -287,5 +300,55 @@ Content-Type: application/json
 {
     "status": "success",
     "message": "User deleted successfully."
+}
+```
+
+#### Obtención de todos los usuarios
+
+##### Método HTTP
+
+```http
+GET /api/users/all_users
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `Token` | `string` | **Requerido**. Token de autenticación |
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "users successfully obtained",
+    "data": {
+        "users": [
+            {
+                "id": 1,
+                "username": "testUsername",
+                "email": "test@email.com",
+                "date_joined": "2024-10-17T15:14:16.668058Z"
+            },
+            {
+                "id": 2,
+                "username": "otherUsername",
+                "email": "other@email.com",
+                "date_joined": "2024-10-18T19:14:16.668058Z"
+            },
+            ...
+        ]
+    }
 }
 ```
