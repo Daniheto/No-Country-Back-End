@@ -4,10 +4,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .serializers import UserValidationSerializer, UserResponseSerializer
+from .serializers import UserValidationSerializer, UserResponseSerializer, UserUpdateSerializer
 from datetime import timedelta
 
 
@@ -118,18 +119,18 @@ def sign_out(request):
 def update_user(request):
     # Obtiene el usuario autenticado
     user = request.user
-
+    
     # Serializa los datos
-    user_validation_serializer = UserValidationSerializer(user, data=request.data, partial=True)
-
+    user_update_serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+    
     # Verifica que los datos son válidos
-    if user_validation_serializer.is_valid():
-        # Guarda los cambios en el usuario
-        user = user_validation_serializer.save()
+    if user_update_serializer.is_valid():
+        # Guarda los cambios del usuario
+        user = user_update_serializer.save()
 
         # Elimina el token del usuario autenticado
         request.user.auth_token.delete()
-
+        
         # Crea o actualiza el token del usuario
         token, created = Token.objects.get_or_create(user=user)
 
@@ -148,7 +149,7 @@ def update_user(request):
                     'token_key': token.key,
                     'token_expiration': token_expiration.isoformat()
                 },
-                'users':user_response_serializer.data
+                'user': user_response_serializer.data
             }
         }, status=status.HTTP_200_OK)
 
@@ -156,7 +157,7 @@ def update_user(request):
     return Response({
         'status': 'error',
         'message': 'Errors in data validation.',
-        'errors': user_validation_serializer.errors
+        'errors': user_update_serializer.errors
     }, status=status.HTTP_400_BAD_REQUEST)
 
 
