@@ -62,8 +62,15 @@ MIDDLEWARE = [
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
+    environ.get('HOST_FRONTEND'),
 ]
+
+
+# settings.py
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE': 10,  # Número de elementos por página
+# }
 
 
 ROOT_URLCONF = 'api.urls'

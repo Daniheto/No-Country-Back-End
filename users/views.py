@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.utils import timezone
 from .serializers import UserValidationSerializer, UserResponseSerializer
 from datetime import timedelta
@@ -126,6 +127,15 @@ def update_user(request):
         # Guarda los cambios en el usuario
         user = user_validation_serializer.save()
 
+        # Elimina el token del usuario autenticado
+        request.user.auth_token.delete()
+
+        # Crea o actualiza el token del usuario
+        token, created = Token.objects.get_or_create(user=user)
+
+        # Configura el tiempo de expiración del token
+        token_expiration = timezone.now() + timedelta(days=3)
+
         # Serializa los datos del usuario
         user_response_serializer = UserResponseSerializer(user)
 
@@ -133,7 +143,13 @@ def update_user(request):
         return Response({
             'status': 'success',
             'message': 'User profile updated successfully.',
-            'data': user_response_serializer.data
+            'data': {
+                'token': {
+                    'token_key': token.key,
+                    'token_expiration': token_expiration.isoformat()
+                },
+                'users':user_response_serializer.data
+            }
         }, status=status.HTTP_200_OK)
 
     # Respuesta erronea desde el endpoint
@@ -166,3 +182,32 @@ def delete_user(request):
             'message': 'Error deleting user.',
             'errors': str(e)
         }, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Endpoint para obtener todos los usuarios
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_all_users(request):
+    # Obtiene a todos los usuarios
+    users = User.objects.all().order_by('id')
+    
+    # Verifica que existan usuarios
+    if not users.exists():
+        # Respuesta erronea del endpoint
+        return Response({
+            'status': 'error',
+            'message': 'Users not found',
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    # Serializa los datos de los usuarios
+    users_serializer_response = UserResponseSerializer(users, many=True)
+
+    # Respuesta exitosa del endpoint
+    return Response({
+        'status': 'success',
+        'message': 'users successfully obtained',
+        'data': {
+            'users': users_serializer_response.data
+        }
+    }, status=status.HTTP_200_OK)
