@@ -232,7 +232,8 @@ PUT /api/users/update_user
 | `Token` | `string` | **Requerido**. Token de autenticación |
 | `username` | `string` | **Requerido**. Nombre del usuario |
 | `email` | `string` | **Requerido**.  Correo electrónico del usuario |
-| `password` | `string` | **Requerido**. Contraseña del usuario |
+| `current_password` | `string` | **Requerido si se cambia la contraseña**. Contraseña actual del usuario |
+| `new_password` | `string`	| Nueva contraseña del usuario |
 
 ##### Ejemplo de solicitud
 
@@ -243,7 +244,8 @@ Authorization: Token <token>
 {
     "username": "newUsername",
     "email": "new@email.com",
-    "password": "newPassword"
+    "current_password": "currentPassword",
+    "new_password": "newPassword"
 }
 ```
 
@@ -262,7 +264,7 @@ Content-Type: application/json
             "token_expiration": "2024-10-20T15:18:45.410372+00:00"
         },
         "users": {
-            "id": 2,
+            "id": 1,
             "username": "newUsername",
             "email": "new@email.com",
             "date_joined": "2024-10-17T15:14:16.668058Z"
