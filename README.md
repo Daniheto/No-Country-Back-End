@@ -6,6 +6,7 @@
 - [Uso](#uso)
 - [Endpoints](#endpoints)
     - [Usuarios](#usuarios)
+    - [Cursos](#cursos)
 
 ## Instalación
 
@@ -350,5 +351,287 @@ Content-Type: application/json
             ...
         ]
     }
+}
+```
+
+### Cursos
+
+| Nombre | Método | Url | Descripción |
+|:------ | :----- | :-- | :---------- |
+| [Crear un curso](#crear-un-curso) | `POST` | `/api/courses/create` | Crea nuevos cursos. |
+| [Obtener todos los cursos](#obtener-todos-los-cursos) | `GET` | `/api/courses/get_all` | Obtiene todos los cursos. |
+| [Actualizar un curso](#actualizar-un-curso) | `PUT` | `/api/courses/update/<int:course_id>` | Actualiza un curso mediante su ID. |
+| [Eliminar un curso](#eliminar-un-curso) | `DELETE` | `/api/courses/delete/<int:course_id>` | Elimina un curso mediante su ID. |
+
+#### Crear un curso
+
+##### Método HTTP
+
+```http
+POST /api/courses/create
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `token` | `string` | **Requerido**. Token del usuario |
+| `title` | `string` | **Requerido**. Titulo del curso |
+| `description` | `string` | Descripcion del curso |
+| `price` | `decimal` | Precio del curso |
+| `category` | `string` | Categoria del curso |
+| `level` | `string` | **Requerido**. Nivel del curso |
+| `status` | `string` | Estado del curso |
+| `duraction` | `int` | **Requerido**. Duración del curso |
+
+> **NOTA**: El parámetro `level` solo acepta los siguientes valores:
+>
+> - **beginner**: Indica un nivel inicial de habilidad.
+> - **intermediate**: Indica un nivel intermedio de habilidad.
+> - **advanced**: Indica un nivel avanzado de habilidad.
+
+> **NOTA**: El parámetro `status` solo acepta los siguientes valores:
+>
+> - **draft**: El documento está en estado de borrador.
+> - **review**: El documento está en revisión.
+> - **approved**: El documento ha sido aprobado.
+> - **rejected**: El documento ha sido rechazado.
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+
+{
+    "title": "Test course title",
+    "description": "Test course description",
+    "price": 12.2,
+    "category": "Test course category",
+    "level": "intermediate",
+    "status": "approved",
+    "duration": 10
+}
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "Course created successfully",
+    "data": {
+        "course": {
+            "id": 1,
+            "title": "Test course title",
+            "description": "Test course description",
+            "level": "intermediate",
+            "price": "12.20",
+            "duration": 10,
+            "category": "Test course category",
+            "status": "approved",
+            "date_creation": "2024-10-17T18:43:25.070879Z",
+            "materials": [],
+            "instructor": {
+                "id": 1,
+                "username": "testUsername",
+                "email": "test@email.com"
+            }
+        }
+    }
+}
+```
+
+#### Obtener todos los cursos
+
+##### Método HTTP
+
+```http
+GET /api/courses/get_all
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `token` | `string` | **Requerido**. Token del usuario |
+
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "Successfully earned courses",
+    "data": {
+        "courses": [
+            {
+                "id": 1,
+                "title": "Test course title",
+                "description": "Test course description",
+                "level": "intermediate",
+                "price": "12.20",
+                "duration": 10,
+                "category": "Test course category",
+                "status": "approved",
+                "date_creation": "2024-10-17T18:43:25.070879Z",
+                "materials": [],
+                "instructor": {
+                    "id": 1,
+                    "username": "testUsername",
+                    "email": "test@email.com"
+                }
+            },
+            {
+                "id": 2,
+                "title": "Test course title 2",
+                "description": "Test course description 2",
+                "level": "advanced",
+                "price": "34.99",
+                "duration": 100,
+                "category": "Test course category 2",
+                "status": "review",
+                "date_creation": "2024-10-17T21:23:15.487719Z",
+                "materials": [],
+                "instructor": {
+                    "id": 1,
+                    "username": "testUsername",
+                    "email": "test@email.com"
+                }
+            },
+            ...
+        ]
+    }
+}
+```
+
+#### Actualizar un curso
+
+##### Método HTTP
+
+```http
+PUT /api/courses/update/<int:course_id>
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `token` | `string` | **Requerido**. Token del usuario |
+| `course_id` | `int` | **Requerido**. ID del curso |
+| `title` | `string` | **Requerido**. Titulo del curso |
+| `description` | `string` | Descripcion del curso |
+| `price` | `decimal` | Precio del curso |
+| `category` | `string` | Categoria del curso |
+| `level` | `string` | **Requerido**. Nivel del curso |
+| `status` | `string` | Estado del curso |
+| `duraction` | `int` | **Requerido**. Duración del curso |
+
+> **NOTA**: El parámetro `level` solo acepta los siguientes valores:
+>
+> - **beginner**: Indica un nivel inicial de habilidad.
+> - **intermediate**: Indica un nivel intermedio de habilidad.
+> - **advanced**: Indica un nivel avanzado de habilidad.
+
+> **NOTA**: El parámetro `status` solo acepta los siguientes valores:
+>
+> - **draft**: El documento está en estado de borrador.
+> - **review**: El documento está en revisión.
+> - **approved**: El documento ha sido aprobado.
+> - **rejected**: El documento ha sido rechazado.
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+
+{
+    "title": "Test course title update",
+    "description": "Test course description update",
+    "price": 12.2,
+    "category": "Test course category update",
+    "level": "beginner",
+    "status": "draft",
+    "duration": 10
+}
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "Course updated successfully",
+    "data": {
+        "course": {
+            "id": 1,
+            "title": "Test course title update",
+            "description": "Test course description update",
+            "level": "beginner",
+            "price": "12.20",
+            "duration": 10,
+            "category": "Test course category update",
+            "status": "draft",
+            "date_creation": "2024-10-17T18:43:25.070879Z",
+            "materials": [],
+            "instructor": {
+                "id": 1,
+                "username": "testUsername",
+                "email": "test@email.com"
+            }
+        }
+    }
+}
+```
+
+#### Eliminar un curso
+
+##### Método HTTP
+
+```http
+DELETE /api/courses/delete/<int:course_id>
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `token` | `string` | **Requerido**. Token del usuario |
+| `course_id` | `int` | **Requerido**. ID del curso |
+
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 204 No Content
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "Successfully deleted course"
 }
 ```
