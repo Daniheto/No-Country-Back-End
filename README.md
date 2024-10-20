@@ -637,3 +637,33 @@ Content-Type: application/json
     "message": "Successfully deleted course"
 }
 ```
+
+#### Inscripción a un curso
+
+##### Método HTTP
+
+```http
+POST /api/inscripciones/
+```
+
+##### Parámetros
+
+| Parámetro   | Tipo     | Descripción                      |
+| :---------- | :------- | :------------------------------- |
+| `token`     | `string` | **Requerido**. Token del usuario |
+| `course_id` | `int`    | **Requerido**. ID del curso      |
+
+#### Listar inscripciones
+
+##### Método HTTP
+
+```http
+GET /api/inscripciones/list/
+```
+
+##### Parámetros
+
+| Parámetro   | Tipo     | Descripción                      |
+| :---------- | :------- | :------------------------------- |
+| `token`     | `string` | **Requerido**. Token del usuario |
+| `course_id` | `int`    | **Requerido**. ID del curso      |
