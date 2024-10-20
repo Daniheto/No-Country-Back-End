@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, Material
+from .models import Course, Material, Inscripcion
 from django.contrib.auth.models import User
 
 
@@ -52,3 +52,9 @@ class CourseResponseSerializer(serializers.ModelSerializer):
             'instructor'
         ]
         read_only_fields = ['date_creation', 'materials', 'instructor']
+
+
+class InscripcionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inscripcion
+        fields = ['curso', 'estudiante', 'fecha_inscripcion']

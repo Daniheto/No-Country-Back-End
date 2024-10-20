@@ -2,9 +2,9 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
-from .models import Course
-from .serializers import CourseValidationSerializer, CourseResponseSerializer
+from rest_framework import status, generics
+from .models import Course, Inscripcion
+from .serializers import CourseValidationSerializer, CourseResponseSerializer, InscripcionSerializer
 
 
 # Endpoint para crear un curso
@@ -13,7 +13,8 @@ from .serializers import CourseValidationSerializer, CourseResponseSerializer
 @permission_classes([IsAuthenticated])
 def create_course(request):
     # Serializa los datos
-    course_validation_serializer = CourseValidationSerializer(data=request.data)
+    course_validation_serializer = CourseValidationSerializer(
+        data=request.data)
 
     # Verifica que los datos san válidos
     if course_validation_serializer.is_valid():
@@ -31,7 +32,7 @@ def create_course(request):
                 'course': course_response_serializer.data
             }
         }, status=status.HTTP_201_CREATED)
-    
+
     # Respuesta erronea del endpoint
     return Response({
         'status': 'error',
@@ -50,7 +51,7 @@ def get_all_courses(request):
 
     # Serializa los datos de los cursos
     course_response_serializer = CourseResponseSerializer(courses, many=True)
-    
+
     # Respuesta exitosa del endpoint
     return Response({
         'status': 'success',
@@ -75,7 +76,7 @@ def update_course(request, course_id):
             'status': 'error',
             'message': 'Course not found'
         }, status=status.HTTP_404_NOT_FOUND)
-    
+
     # Verifica si el usuario autenticado es el propietario del curso
     if course.instructor != request.user:
         return Response({
@@ -84,7 +85,8 @@ def update_course(request, course_id):
         }, status=status.HTTP_403_FORBIDDEN)
 
     # Serializa los datos del curso
-    course_validation_serializer = CourseValidationSerializer(course, data=request.data, partial=True)
+    course_validation_serializer = CourseValidationSerializer(
+        course, data=request.data, partial=True)
 
     # Verifica que los datos sean válidos
     if course_validation_serializer.is_valid():
@@ -102,7 +104,7 @@ def update_course(request, course_id):
                 'course': course_response_serializer.data
             }
         }, status=status.HTTP_200_OK)
-    
+
     # Respuesta erronea del endpoint
     return Response({
         'status': 'error',
@@ -141,3 +143,15 @@ def delete_course(request, course_id):
             'status': 'error',
             'message': 'Course not found'
         }, status=status.HTTP_404_NOT_FOUND)
+
+
+class InscripcionCreateView(generics.CreateAPIView):
+    queryset = Inscripcion.objects.all()
+    serializer_class = InscripcionSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class InscripcionListView(generics.ListAPIView):
+    queryset = Inscripcion.objects.all()
+    serializer_class = InscripcionSerializer
+    permission_classes = [IsAuthenticated]

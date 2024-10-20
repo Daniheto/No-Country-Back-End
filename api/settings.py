@@ -63,7 +63,7 @@ MIDDLEWARE = [
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    environ.get('HOST_FRONTEND'),
+    "http://localhost:8080",
 ]
 
 

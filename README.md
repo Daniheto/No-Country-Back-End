@@ -5,8 +5,8 @@
 - [Instalación](#instalación)
 - [Uso](#uso)
 - [Endpoints](#endpoints)
-    - [Usuarios](#usuarios)
-    - [Cursos](#cursos)
+  - [Usuarios](#usuarios)
+  - [Cursos](#cursos)
 
 ## Instalación
 
@@ -46,14 +46,14 @@ pip install -r requirements.txt
 
 - Crea una base de datos PostgreSQL en tu entorno.
 - Crea un archivo `.env` en la ruta raiz de tu proyecto y crea las variables de entorno con los datos correpodientes:
-    - `ENGINE` -> Tipo de base de datos
-    - `NAME` -> Nombre de la base de datos
-    - `USER` -> Usuario de la base de datos
-    - `PASSWORD` -> Contraseña de la base de datos
-    - `HOST` -> Host de la base de datos
-    - `PORT` -> Puerto de la base de datos
+  - `ENGINE` -> Tipo de base de datos
+  - `NAME` -> Nombre de la base de datos
+  - `USER` -> Usuario de la base de datos
+  - `PASSWORD` -> Contraseña de la base de datos
+  - `HOST` -> Host de la base de datos
+  - `PORT` -> Puerto de la base de datos
 - En el archivo `.env` crea una nueva variable para la conexion del host del fronted:
-    - `HOST_FRONTEND` -> URL del frontend
+  - `HOST_FRONTEND` -> URL del frontend
 
 5. **Crea las migraciones:**
 
@@ -74,14 +74,14 @@ python manage.py runserver
 
 ### Usuarios
 
-| Nombre | Método | Url | Descripción |
-|:------ | :----- | :-- | :---------- |
-| [Registro de Usuarios](#registro-de-usuario) | `POST` | `/api/users/sign_up` | Registro de usuarios. |
-| [Inicio de Sesión de Usuarios](#inicio-de-sesión-de-usuario) | `POST` | `/api/users/sign_in` | Inicio de sesión de los usuarios. |
-| [Cierre de Sesión de Usuarios](#cierre-de-sesión-de-usuario) | `POST` | `/api/users/sign_out` | Cerrar sesión de un usuario autenticado. |
-| [Actualización del Usuarios](#actualización-del-usuario) | `PUT` | `/api/users/update_user` | Actualizar la información del perfil del usuario. |
-| [Eliminación del Usuarios](#eliminación-del-usuario) | `DELETE` | `/api/users/delete_user` | Eliminar el usuario actual. |
-| [Obtener Todos los Usuarios](#obtención-de-todos-los-usuarios) | `GET` | `/api/users/all_users` | Obtiene todos los usuarios. |
+| Nombre                                                         | Método   | Url                      | Descripción                                       |
+| :------------------------------------------------------------- | :------- | :----------------------- | :------------------------------------------------ |
+| [Registro de Usuarios](#registro-de-usuario)                   | `POST`   | `/api/users/sign_up`     | Registro de usuarios.                             |
+| [Inicio de Sesión de Usuarios](#inicio-de-sesión-de-usuario)   | `POST`   | `/api/users/sign_in`     | Inicio de sesión de los usuarios.                 |
+| [Cierre de Sesión de Usuarios](#cierre-de-sesión-de-usuario)   | `POST`   | `/api/users/sign_out`    | Cerrar sesión de un usuario autenticado.          |
+| [Actualización del Usuarios](#actualización-del-usuario)       | `PUT`    | `/api/users/update_user` | Actualizar la información del perfil del usuario. |
+| [Eliminación del Usuarios](#eliminación-del-usuario)           | `DELETE` | `/api/users/delete_user` | Eliminar el usuario actual.                       |
+| [Obtener Todos los Usuarios](#obtención-de-todos-los-usuarios) | `GET`    | `/api/users/all_users`   | Obtiene todos los usuarios.                       |
 
 #### Registro de usuario
 
@@ -93,11 +93,11 @@ POST /api/users/sign_up
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `username` | `string` | **Requerido**. Nombre del usuario |
-| `email` | `string` | **Requerido**.  Correo electrónico del usuario |
-| `password` | `string` | **Requerido**. Contraseña del usuario |
+| Parámetro  | Tipo     | Descripción                                   |
+| :--------- | :------- | :-------------------------------------------- |
+| `username` | `string` | **Requerido**. Nombre del usuario             |
+| `email`    | `string` | **Requerido**. Correo electrónico del usuario |
+| `password` | `string` | **Requerido**. Contraseña del usuario         |
 
 ##### Ejemplo de solicitud
 
@@ -144,9 +144,9 @@ POST /api/users/sign_in
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `username` | `string` | **Requerido**. Nombre del usuario |
+| Parámetro  | Tipo     | Descripción                           |
+| :--------- | :------- | :------------------------------------ |
+| `username` | `string` | **Requerido**. Nombre del usuario     |
 | `password` | `string` | **Requerido**. Contraseña del usuario |
 
 ##### Ejemplo de solicitud
@@ -194,9 +194,9 @@ POST /api/users/sign_out
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `Token` | `string` | **Requerido**. Token de autenticación |
+| Parámetro | Tipo     | Descripción                           |
+| :-------- | :------- | :------------------------------------ |
+| `Token`   | `string` | **Requerido**. Token de autenticación |
 
 ##### Ejemplo de solicitud
 
@@ -227,13 +227,13 @@ PUT /api/users/update_user
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `Token` | `string` | **Requerido**. Token de autenticación |
-| `username` | `string` | **Requerido**. Nombre del usuario |
-| `email` | `string` | **Requerido**.  Correo electrónico del usuario |
+| Parámetro          | Tipo     | Descripción                                                             |
+| :----------------- | :------- | :---------------------------------------------------------------------- |
+| `Token`            | `string` | **Requerido**. Token de autenticación                                   |
+| `username`         | `string` | **Requerido**. Nombre del usuario                                       |
+| `email`            | `string` | **Requerido**. Correo electrónico del usuario                           |
 | `current_password` | `string` | **Requerido si se cambia la contraseña**. Contraseña actual del usuario |
-| `new_password` | `string`	| Nueva contraseña del usuario |
+| `new_password`     | `string` | Nueva contraseña del usuario                                            |
 
 ##### Ejemplo de solicitud
 
@@ -283,9 +283,9 @@ DELETE /api/users/delete_user
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `Token` | `string` | **Requerido**. Token de autenticación |
+| Parámetro | Tipo     | Descripción                           |
+| :-------- | :------- | :------------------------------------ |
+| `Token`   | `string` | **Requerido**. Token de autenticación |
 
 ##### Ejemplo de solicitud
 
@@ -316,9 +316,9 @@ GET /api/users/all_users
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `Token` | `string` | **Requerido**. Token de autenticación |
+| Parámetro | Tipo     | Descripción                           |
+| :-------- | :------- | :------------------------------------ |
+| `Token`   | `string` | **Requerido**. Token de autenticación |
 
 ##### Ejemplo de solicitud
 
@@ -358,12 +358,14 @@ Content-Type: application/json
 
 ### Cursos
 
-| Nombre | Método | Url | Descripción |
-|:------ | :----- | :-- | :---------- |
-| [Crear un curso](#crear-un-curso) | `POST` | `/api/courses/create` | Crea nuevos cursos. |
-| [Obtener todos los cursos](#obtener-todos-los-cursos) | `GET` | `/api/courses/get_all` | Obtiene todos los cursos. |
-| [Actualizar un curso](#actualizar-un-curso) | `PUT` | `/api/courses/update/<int:course_id>` | Actualiza un curso mediante su ID. |
-| [Eliminar un curso](#eliminar-un-curso) | `DELETE` | `/api/courses/delete/<int:course_id>` | Elimina un curso mediante su ID. |
+| Nombre                                                       | Método   | Url                                   | Descripción                        |
+| :----------------------------------------------------------- | :------- | :------------------------------------ | :--------------------------------- |
+| [Crear un curso](#crear-un-curso)                            | `POST`   | `/api/courses/create`                 | Crea nuevos cursos.                |
+| [Obtener todos los cursos](#obtener-todos-los-cursos)        | `GET`    | `/api/courses/get_all`                | Obtiene todos los cursos.          |
+| [Actualizar un curso](#actualizar-un-curso)                  | `PUT`    | `/api/courses/update/<int:course_id>` | Actualiza un curso mediante su ID. |
+| [Eliminar un curso](#eliminar-un-curso)                      | `DELETE` | `/api/courses/delete/<int:course_id>` | Elimina un curso mediante su ID.   |
+| [Inscripción a un curso](#crear-una-inscripción)             | `POST`   | `/api/inscripciones`                  | Crea nuevas inscripciones.         |
+| [Listar las inscripciones](#obtener-todas-las-inscripciones) | `GET`    | `/api/inscripciones/list`             | Listar las inscripciones.          |
 
 #### Crear un curso
 
@@ -375,16 +377,16 @@ POST /api/courses/create
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `token` | `string` | **Requerido**. Token del usuario |
-| `title` | `string` | **Requerido**. Titulo del curso |
-| `description` | `string` | Descripcion del curso |
-| `price` | `decimal` | Precio del curso |
-| `category` | `string` | Categoria del curso |
-| `level` | `string` | **Requerido**. Nivel del curso |
-| `status` | `string` | Estado del curso |
-| `duraction` | `int` | **Requerido**. Duración del curso |
+| Parámetro     | Tipo      | Descripción                       |
+| :------------ | :-------- | :-------------------------------- |
+| `token`       | `string`  | **Requerido**. Token del usuario  |
+| `title`       | `string`  | **Requerido**. Titulo del curso   |
+| `description` | `string`  | Descripcion del curso             |
+| `price`       | `decimal` | Precio del curso                  |
+| `category`    | `string`  | Categoria del curso               |
+| `level`       | `string`  | **Requerido**. Nivel del curso    |
+| `status`      | `string`  | Estado del curso                  |
+| `duraction`   | `int`     | **Requerido**. Duración del curso |
 
 > **NOTA**: El parámetro `level` solo acepta los siguientes valores:
 >
@@ -457,10 +459,9 @@ GET /api/courses/get_all
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `token` | `string` | **Requerido**. Token del usuario |
-
+| Parámetro | Tipo     | Descripción                      |
+| :-------- | :------- | :------------------------------- |
+| `token`   | `string` | **Requerido**. Token del usuario |
 
 ##### Ejemplo de solicitud
 
@@ -530,17 +531,17 @@ PUT /api/courses/update/<int:course_id>
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `token` | `string` | **Requerido**. Token del usuario |
-| `course_id` | `int` | **Requerido**. ID del curso |
-| `title` | `string` | **Requerido**. Titulo del curso |
-| `description` | `string` | Descripcion del curso |
-| `price` | `decimal` | Precio del curso |
-| `category` | `string` | Categoria del curso |
-| `level` | `string` | **Requerido**. Nivel del curso |
-| `status` | `string` | Estado del curso |
-| `duraction` | `int` | **Requerido**. Duración del curso |
+| Parámetro     | Tipo      | Descripción                       |
+| :------------ | :-------- | :-------------------------------- |
+| `token`       | `string`  | **Requerido**. Token del usuario  |
+| `course_id`   | `int`     | **Requerido**. ID del curso       |
+| `title`       | `string`  | **Requerido**. Titulo del curso   |
+| `description` | `string`  | Descripcion del curso             |
+| `price`       | `decimal` | Precio del curso                  |
+| `category`    | `string`  | Categoria del curso               |
+| `level`       | `string`  | **Requerido**. Nivel del curso    |
+| `status`      | `string`  | Estado del curso                  |
+| `duraction`   | `int`     | **Requerido**. Duración del curso |
 
 > **NOTA**: El parámetro `level` solo acepta los siguientes valores:
 >
@@ -613,11 +614,10 @@ DELETE /api/courses/delete/<int:course_id>
 
 ##### Parámetros
 
-| Parámetro | Tipo     | Descripción                |
-| :-------- | :------- | :------------------------- |
-| `token` | `string` | **Requerido**. Token del usuario |
-| `course_id` | `int` | **Requerido**. ID del curso |
-
+| Parámetro   | Tipo     | Descripción                      |
+| :---------- | :------- | :------------------------------- |
+| `token`     | `string` | **Requerido**. Token del usuario |
+| `course_id` | `int`    | **Requerido**. ID del curso      |
 
 ##### Ejemplo de solicitud
 

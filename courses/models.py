@@ -19,11 +19,14 @@ class Course(models.Model):
     title = models.CharField(max_length=255, unique=True, blank=False)
     description = models.TextField(blank=True)
     level = models.CharField(max_length=20, choices=LEVEL_CHOICES, blank=False)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, blank=False)
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00, blank=False)
     duration = models.PositiveIntegerField(blank=False)
     category = models.CharField(max_length=100, blank=True)
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    instructor = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='courses')
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='draft')
     date_creation = models.DateTimeField(auto_now_add=True)
 
 
@@ -34,8 +37,18 @@ class Material(models.Model):
         ('other', 'Other'),
     ]
 
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='materials')
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='materials')
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=False)
     url = models.URLField(max_length=200, blank=True)
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(blank=True)
+
+
+class Inscripcion(models.Model):
+    curso = models.ForeignKey(Course, on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha_inscripcion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('curso', 'estudiante')
