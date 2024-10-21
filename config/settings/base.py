@@ -21,9 +21,9 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    'users',
-    'courses',
-    'inscriptions',
+    'apps.users',
+    'apps.courses',
+    'apps.inscriptions',
 ]
 
 THIRD_APPS = [
