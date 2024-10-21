@@ -82,6 +82,8 @@ python manage.py runserver --settings=config.settings.development
 | [Actualización del Usuarios](#actualización-del-usuario)       | `PUT`    | `/api/users/update_user` | Actualizar la información del perfil del usuario. |
 | [Eliminación del Usuarios](#eliminación-del-usuario)           | `DELETE` | `/api/users/delete_user` | Eliminar el usuario actual.                       |
 | [Obtener Todos los Usuarios](#obtención-de-todos-los-usuarios) | `GET`    | `/api/users/all_users`   | Obtiene todos los usuarios.                       |
+| [Actualización del Usuarios por Administrador](#actualización-del-usuario-administrador)       | `PUT`    | `/api/users/update_user/<int:user_id>` | Actualizar la información del perfil del usuario por parte del administrador. |
+| [Eliminación del Usuarios por Administrador](#eliminación-del-usuario-administrador)           | `DELETE` | `/api/users/delete_user/<int:user_id>` | Eliminar el usuario por parte del administrador.                       |
 
 #### Registro de usuario
 
@@ -353,6 +355,95 @@ Content-Type: application/json
             ...
         ]
     }
+}
+```
+
+#### Actualización del usuario
+
+##### Método HTTP
+
+```http
+PUT /api/users/update_user/<int:user_id>
+```
+
+##### Parámetros
+
+| Parámetro          | Tipo     | Descripción                                                             |
+| :----------------- | :------- | :---------------------------------------------------------------------- |
+| `Token`            | `string` | **Requerido**. Token de autenticación                                   |
+| `user_id`   | `int` | **Requerido**. ID del usuario a eliminar |
+| `username`         | `string` | **Requerido**. Nombre del usuario                                       |
+| `email`            | `string` | **Requerido**. Correo electrónico del usuario                           |
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+
+{
+    "username": "newUsername",
+    "email": "new@email.com",
+    "current_password": "currentPassword",
+    "new_password": "newPassword"
+}
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "User profile updated successfully.",
+    "data": {
+        "token": {
+            "token_key": "56df34f5356f23863572fe1610539f4240aa466a",
+            "token_expiration": "2024-10-20T15:18:45.410372+00:00"
+        },
+        "users": {
+            "id": 1,
+            "username": "newUsername",
+            "email": "new@email.com",
+            "date_joined": "2024-10-17T15:14:16.668058Z"
+        }
+    }
+}
+```
+
+#### Eliminación del usuario
+
+##### Método HTTP
+
+```http
+DELETE /api/users/delete_user/<int:user_id>
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                           |
+| :-------- | :------- | :------------------------------------ |
+| `Token`   | `string` | **Requerido**. Token de autenticación |
+| `user_id`   | `int` | **Requerido**. ID del usuario a eliminar |
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "User deleted successfully."
 }
 ```
 
