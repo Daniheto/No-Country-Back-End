@@ -58,14 +58,14 @@ pip install -r requirements.txt
 5. **Crea las migraciones:**
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations --settings=config.settings.development
+python manage.py migrate --settings=config.settings.development
 ```
 
 6. **Ejecutar el servidor:**
 
 ```bash
-python manage.py runserver
+python manage.py runserver --settings=config.settings.development
 ```
 
 ¡Listo! El proyecto ahora debería estar en funcionamiento en tu entorno local. Puedes acceder a él desde tu navegador web visitando `http://localhost:8000`.
