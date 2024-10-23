@@ -36,6 +36,7 @@ class Material(models.Model):
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='materials')
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=False)
+    file = models.FileField(upload_to='materials/', blank=True, null=False)
     url = models.URLField(max_length=200, blank=True)
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(blank=True)

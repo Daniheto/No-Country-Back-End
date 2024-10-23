@@ -1,12 +1,16 @@
 from pathlib import Path
-from os import environ
 from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Lee las variables de entorno
 load_dotenv(Path.joinpath(BASE_DIR,'.env'))
+
+# Configuración de almacenamiento de archivos
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Application definition
