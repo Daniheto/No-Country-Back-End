@@ -7,6 +7,7 @@
 - [Endpoints](#endpoints)
   - [Usuarios](#usuarios)
   - [Cursos](#cursos)
+  - [Pagos](#pagos)
 
 ## Instalación
 
@@ -930,4 +931,145 @@ Content-Type: application/json
 
 ```http
 HTTP/1.1 204 No Content
+```
+
+### Pagos
+
+| Nombre                                                | Método   | Url                                   | Descripción                        |
+| :---------------------------------------------------- | :------- | :------------------------------------ | :--------------------------------- |
+| [Hacer un pago de un curso](#hacer-un-pago-de-un-curso)                     | `POST`   | `/api/payments/create`                 | Hace un pago de un curso.                |
+| [Obtener todos los pagos](#obtener-todos-los-pagos) | `GET`    | `/api/payments/get_all`                | Obtiene todos los pagos.          |
+
+#### Hacer un pago de un curso
+
+##### Método HTTP
+
+```http
+POST /api/payments/create
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `token` | `string` | **Requerido**.  Token de autenticación |
+| `user` | `int` | **Requerido**.  ID del usuario |
+| `course` | `int` | **Requerido**.  ID del curso |
+| `payment_method` | `string` | **Requerido**.  Metodo de pago |
+| `amount` | `decimal` | **Requerido**.  monto del pago |
+
+> **NOTA**: El parámetro `payment_method` solo acepta los siguientes valores:
+>
+> - **paypal**: Indica un pago realizado con paypal.
+> - **transfer**: Indica un pago realizado con transferencia.
+> - **credit card**: Indica un pago realizado con tarjeta de credito.
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+
+{
+  "user": 2,
+  "course": 1,
+  "payment_method": "paypal",
+  "amount": 34.99
+}
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+  "status": "success",
+  "message": "payment created successfully",
+  "data": {
+    "payments": {
+      "id": 1,
+      "payment_date": "2024-10-25T16:43:25.143931Z",
+      "payment_method": "paypal",
+      "amount": "34.99",
+      "user": 2,
+      "course": 1
+    }
+  }
+}
+```
+
+#### Obtener todos los pagos
+
+##### Método HTTP
+
+```http
+GET /api/payments/get_all
+```
+
+##### Parámetros
+
+| Parámetro | Tipo     | Descripción                |
+| :-------- | :------- | :------------------------- |
+| `token` | `string` | **Requerido**.  Token de autenticación |
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+Authorization: Token <token>
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "payments obtained correctly",
+    "data": {
+        "payments": [
+            {
+                "id": 1,
+                "user": {
+                "id": 2,
+                "username": "josefina",
+                "email": "josefina@gy.com",
+                "date_joined": "2024-10-23T18:30:39.332627Z"
+            },
+            "course": {
+                "id": 1,
+                "title": "Test course title",
+                "description": "Test course description",
+                "level": "intermediate",
+                "price": "34.99",
+                "duration": 120,
+                "category": "Test course category",
+                "status": "approved",
+                "date_creation": "2024-10-23T18:32:59.362865Z",
+                "materials": [
+                    {
+                        "id": 2,
+                        "type": "pdf",
+                        "file": "/media/materials/hiragana_writing_practice_sheets.pdf",
+                        "title": "prueba titulo",
+                        "description": "prueba de descripcion"
+                    }
+                ],
+                "instructor": {
+                    "id": 2,
+                    "username": "josefina",
+                    "email": "josefina@gy.com"
+                }
+            },
+            "payment_date": "2024-10-25T16:43:25.143931Z",
+            "payment_method": "paypal",
+            "amount": "34.99"
+            }
+        ]
+    }
+}
 ```
