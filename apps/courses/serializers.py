@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Course, Material
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 class CourseValidationSerializer(serializers.ModelSerializer):
@@ -23,7 +24,8 @@ class CourseValidationSerializer(serializers.ModelSerializer):
 class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Material
-        fields = ['id', 'type', 'url', 'title', 'description']
+        fields = ['id', 'type', 'file', 'title', 'description']
+        read_only_fields = ['id', 'file', 'course']
 
 
 class InstructorSerializer(serializers.ModelSerializer):
