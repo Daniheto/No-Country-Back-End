@@ -990,6 +990,7 @@ Content-Type: application/json
   "data": {
     "payments": {
       "id": 1,
+      "identifier": "#PAY0001",
       "payment_date": "2024-10-25T16:43:25.143931Z",
       "payment_method": "paypal",
       "amount": "34.99",
@@ -1067,7 +1068,8 @@ Content-Type: application/json
             },
             "payment_date": "2024-10-25T16:43:25.143931Z",
             "payment_method": "paypal",
-            "amount": "34.99"
+            "amount": "34.99",
+            "identifier": "#PAY0001"
             }
         ]
     }
