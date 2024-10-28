@@ -237,8 +237,8 @@ def update_user_admin(request, user_id):
         # Guarda los cambios del usuario
         user = user_update_serializer.save()
 
-        # Elimina el token del usuario autenticado
-        request.user.auth_token.delete()
+        # Elimina el token del usuario
+        user.auth_token.delete()
         
         # Crea o actualiza el token del usuario
         token, created = Token.objects.get_or_create(user=user)
@@ -286,10 +286,10 @@ def delete_user_admin(request, user_id):
                 'message': 'User not found'
             }, status=status.HTTP_404_NOT_FOUND)
         
-        # Elimina el token del usuario autenticado
+        # Elimina el token del usuario
         user.auth_token.delete()
 
-        # Elimina el usuario autenticado
+        # Elimina el usuario
         user.delete()
 
         return Response({
