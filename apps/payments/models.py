@@ -13,7 +13,7 @@ class Payments(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True)
     payment_method = models.CharField(max_length=20, choices=METHOD_CHOICES, blank=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, blank=False)
-    ident = models.CharField(max_length=10, unique=True, editable=False)  # Campo ID personalizado
+    ident = models.TextField(max_length=10, unique=True, editable=False)  # Campo ID personalizado
 
 
     def save(self, *args, **kwargs):
