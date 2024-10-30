@@ -547,17 +547,10 @@ Content-Type: application/json
 GET /api/courses/get_all
 ```
 
-##### Parámetros
-
-| Parámetro | Tipo     | Descripción                      |
-| :-------- | :------- | :------------------------------- |
-| `token`   | `string` | **Requerido**. Token del usuario |
-
 ##### Ejemplo de solicitud
 
 ```http
 Content-Type: application/json
-Authorization: Token <token>
 ```
 
 ##### Ejemplo de respuesta exitosa
