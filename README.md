@@ -454,6 +454,7 @@ Content-Type: application/json
 | :---------------------------------------------------- | :------- | :------------------------------------ | :--------------------------------- |
 | [Crear un curso](#crear-un-curso)                     | `POST`   | `/api/courses/create`                 | Crea nuevos cursos.                |
 | [Obtener todos los cursos](#obtener-todos-los-cursos) | `GET`    | `/api/courses/get_all`                | Obtiene todos los cursos.          |
+| [Obtener un curso por id](#obtener-un-curso-id) | `GET`    | `/api/courses/get/<int:course_id>`                | Obtiene un curso mediante su id.          |
 | [Actualizar un curso](#actualizar-un-curso)           | `PUT`    | `/api/courses/update/<int:course_id>` | Actualiza un curso mediante su ID. |
 | [Eliminar un curso](#eliminar-un-curso)               | `DELETE` | `/api/courses/delete/<int:course_id>` | Elimina un curso mediante su ID.   |
 
@@ -618,6 +619,60 @@ Content-Type: application/json
             },
             ...
         ]
+    }
+}
+```
+
+#### Obtener un curso id
+
+##### Método HTTP
+
+```http
+GET /api/courses/get/<int:course_id>
+```
+
+##### Ejemplo de solicitud
+
+```http
+Content-Type: application/json
+```
+
+##### Ejemplo de respuesta exitosa
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
+{
+    "status": "success",
+    "message": "Course obtained successfully.",
+    "data": {
+        "course": {
+            "id": 1,
+            "title": "Test course title",
+            "description": "Test course description",
+            "level": "intermediate",
+            "price": "12.20",
+            "duration": 10,
+            "category": "Test course category",
+            "status": "approved",
+            "date_creation": "2024-10-17T18:43:25.070879Z",
+            "materials": [
+                {
+                    "id": 1,
+                    "type": "video",
+                    "file": "/media/materials/video.mp4",
+                    "title": "Introduction Video",
+                    "description": "This is the introduction video for the course",
+                },
+                ...
+            ]
+            "instructor": {
+                "id": 1,
+                "username": "testUsername",
+                "email": "test@email.com"
+            }
+        }
     }
 }
 ```
