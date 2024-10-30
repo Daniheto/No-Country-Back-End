@@ -59,6 +59,28 @@ def get_all_courses(request):
     }, status=status.HTTP_200_OK)
 
 
+# Endpoint para obtener un curso por id
+@api_view(['GET'])
+def get_course_id(request, course_id):
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        return Response({
+            'status': 'error',
+            'message': 'Course not found'
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    course_response_serializer = CourseResponseSerializer(course, many=True)
+
+    return Response({
+        'status': 'success',
+        'message': 'Course obteined successfully',
+        'data': {
+            'course': course_response_serializer.data
+        }
+    }, status=status.HTTP_200_OK)
+
+
 # Endpoint para actualizar un curso
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
