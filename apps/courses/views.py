@@ -42,8 +42,6 @@ def create_course(request):
 
 # Endpoint para obtener todos los cursos
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def get_all_courses(request):
     # Obtiene todos los cursos
     courses = Course.objects.all().order_by('id')

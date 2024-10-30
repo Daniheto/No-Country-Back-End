@@ -13,23 +13,23 @@ class Payments(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True)
     payment_method = models.CharField(max_length=20, choices=METHOD_CHOICES, blank=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, blank=False)
-    identifier = models.CharField(max_length=10, unique=True, editable=False)  # Campo ID personalizado
+    ident = models.TextField(max_length=10, unique=True, editable=False)  # Campo ID personalizado
 
 
     def save(self, *args, **kwargs):
         # Genera el identificador solo si no está asignado
-        if not self.identifier:
+        if not self.ident:
             # Obtenemos el último registro de pagos para el ID
             last_payment = Payments.objects.all().order_by('id').last()
             
-            if last_payment and last_payment.identifier.startswith("#PAY") and last_payment.identifier[4:].isdigit():
+            if last_payment and last_payment.ident.startswith("#PAY") and last_payment.ident[4:].isdigit():
                 # Extraemos y convertimos los últimos 4 caracteres a número si están en el formato adecuado
-                last_id = int(last_payment.identifier[-4:])
+                last_id = int(last_payment.ident[-4:])
                 new_id = f"#PAY{last_id + 1:04d}"  # Incrementa y formatea
             else:
                 # Si no hay un último ID válido, comenzamos en "#PAY0001"
                 new_id = "#PAY0001"
 
-            self.identifier = new_id
+            self.ident = new_id
 
         super().save(*args, **kwargs)  # Guardamos el objeto normalmente
