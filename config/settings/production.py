@@ -17,6 +17,7 @@ ALLOWED_HOSTS = [ '*' ]
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
     os.environ.get('HOST_FRONTEND'),
+    os.environ.get('HOST_FRONTED_DEPLOY'),
 ]
 
 
